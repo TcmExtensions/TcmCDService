@@ -1,0 +1,30 @@
+cd_cache.jar
+cd_core.jar
+cd_cache_stub.jar
+	com\tridion\cache\CacheEvent.class
+	com\tridion\cache\RemoteCacheChannelService.class
+	com\tridion\cache\RemotecacheListener.class
+
+com.tridion.tcmcdservice.rmi.jar
+com.tridion.tcmcdservice.rmi.dll
+	This is generated from the com.tridion.tcmcdservice.rmi Java project
+	using IKVM version 7.2.4630.5 (http://www.ikvm.net).
+
+	Commandline:
+		IKVMc.exe com.tridion.tcmcdservice.rmi.jar cd_cache.jar 
+		-version:1.0.0.0 -fileversion:1.0.0.0
+
+dependencies.txt
+geronimo-jms_1.1_spec-1.1.1
+IKVM.OpenJDK.Core.dll
+IKVM.OpenJDK.Remoting.dll
+IKVM.OpenJDK.Security.dll
+IKVM.OpenJDK.Util.dll
+IKVM.Runtime.dll
+mscorlib.jar
+netrtsn.dll
+slf4j-api.jar
+Tridion.ContentDelivery.Configuration.dll
+Tridion.ContentDelivery.dll
+Tridion.ContentDelivery.Interop.dll
+xmogrt.dll

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{29221877-42E4-4365-829A-E2CF859E319B}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TcmCDService</RootNamespace>
+    <AssemblyName>TcmCDService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netrtsn">
+      <HintPath>..\dependencies\netrtsn.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="Tridion.ContentDelivery">
+      <HintPath>..\dependencies\Tridion.ContentDelivery.dll</HintPath>
+    </Reference>
+    <Reference Include="Tridion.ContentDelivery.Configuration, Version=6.1.0.348, Culture=neutral, PublicKeyToken=ddfc895746e5ee6b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dependencies\Tridion.ContentDelivery.Configuration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caching\TridionDependency.cs" />
+    <Compile Include="Caching\TridionChangeMonitor.cs" />
+    <Compile Include="ContentDelivery\DynamicContent\BinaryCache.cs" />
+    <Compile Include="ContentDelivery\DynamicContent\ComponentPresentationAssemblyCache.cs" />
+    <Compile Include="ContentDelivery\DynamicContent\PageContentCache.cs" />
+    <Compile Include="ContentDelivery\DynamicContent\Query\QueryCache.cs" />
+    <Compile Include="ContentDelivery\APICache.cs" />
+    <Compile Include="Caching\Cache.cs" />
+    <Compile Include="ContentDelivery\DynamicContent\ComponentPresentationCache.cs" />
+    <Compile Include="ContentDelivery\Meta\ComponentMetaCache.cs" />
+    <Compile Include="ContentDelivery\Taxonomies\KeywordCache.cs" />
+    <Compile Include="ContentDelivery\Web.Linking\ComponentLinkCache.cs" />
+    <Compile Include="ContentDelivery\Web.Linking\BinaryLinkCache.cs" />
+    <Compile Include="ContentDelivery\Web.Linking\PageLinkCache.cs" />
+    <Compile Include="Extensions\ContractExtensions.cs" />
+    <Compile Include="Extensions\ServiceExtensions.cs" />
+    <Compile Include="Installer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Installer.Designer.cs">
+      <DependentUpon>Installer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Service.cs" />
+    <Compile Include="ContentDelivery\TcmUri.cs" />
+    <Compile Include="WindowsService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WindowsService.Designer.cs">
+      <DependentUpon>WindowsService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\dependencies\xmogrt.dll">
+      <Link>xmogrt.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TcmCDService.Common\TcmCDService.Common.csproj">
+      <Project>{1675beb4-4229-4a9d-a2ce-b0b52da84e49}</Project>
+      <Name>TcmCDService.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TcmCDService.Contracts\TcmCDService.Contracts.csproj">
+      <Project>{6bed2aaf-bfe0-4b8b-9eff-8463305264e6}</Project>
+      <Name>TcmCDService.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

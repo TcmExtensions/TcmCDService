@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{03176F98-97C0-4797-B8F1-99091F3DEF85}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TcmCDService.RMI</RootNamespace>
+    <AssemblyName>TcmCDService.RMI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netrtsn">
+      <HintPath>..\dependencies\netrtsn.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="Tridion.ContentDelivery.Interop">
+      <HintPath>..\dependencies\Tridion.ContentDelivery.Interop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Com.Tridion.Cache\ICacheChannelEventListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Com.Tridion.Cache\CacheChannelEventListenerCallback.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Com.Tridion.Cache\CacheChannelEventListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Com.Tridion.Cache\CacheEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Com.Tridion.Cache\RMICacheChannelConnector.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Java.Rmi.Server\UnicastRemoteObject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RMICache.cs" />
+    <Compile Include="RMIListener.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TcmCDService.Common\TcmCDService.Common.csproj">
+      <Project>{1675beb4-4229-4a9d-a2ce-b0b52da84e49}</Project>
+      <Name>TcmCDService.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Com.Tridion.Cache\CacheChannelEventListenerCallback.class">
+      <LogicalName>Com.Tridion.Cache.CacheChannelEventListenerCallback</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /y "$(TargetDir)*.dll" "$(SolutionDir)TcmCDService\$(OutDir)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
