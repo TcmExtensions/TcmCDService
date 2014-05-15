@@ -10,7 +10,7 @@ TcmCacheService
 
 TcmCacheService provides a simple hosting service for configuring and running a ZeroMQ broker.
 
-==== Configuration ====
+### Configuration #
 
 TcmCacheService can be installed or uninstalled as a service by using the "-install" or "-remove" parameters on the command prompt.
 
