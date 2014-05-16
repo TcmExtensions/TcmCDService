@@ -47,7 +47,7 @@ namespace TcmCDService.Contracts
 	public class MetaQuery : SubQuery
 	{
 		/// <summary>
-		/// Gets or sets the valuetype to lookup for the <see cref="MetaQuery" /
+		/// Gets or sets the valuetype to lookup for the <see cref="MetaQuery" />
 		/// </summary>
 		/// <value>
 		/// Query value type, i.e. string, numeric or date.

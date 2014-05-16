@@ -67,28 +67,28 @@ namespace TcmCDService.Contracts
 		public CustomMetaType DataType { get; set; }
 
 		/// <summary>
-		/// Gets or sets the <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.String}" > values.
+		/// Gets or sets the <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.String}" /> values.
 		/// </summary>
 		/// <value>
-		/// The <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.String}" > values or null
+		/// The <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.String}" /> values or null
 		/// </value>
 		[DataMember(Name = "stringValues", EmitDefaultValue = false, Order = 3)]
 		public IEnumerable<String> StringValues { get; set; }
 
 		/// <summary>
-		/// Gets or sets the <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.DateTime}" > values.
+		/// Gets or sets the <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.DateTime}" /> values.
 		/// </summary>
 		/// <value>
-		/// The <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.DateTime}" > values or null
+		/// The <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.DateTime}" /> values or null
 		/// </value>
 		[DataMember(Name = "dateTimeValues", EmitDefaultValue = false, Order = 4)]
 		public IEnumerable<DateTime> DateTimeValues { get; set; }
 
 		/// <summary>
-		/// Gets or sets the <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.Single}" > values.
+		/// Gets or sets the <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.Single}" /> values.
 		/// </summary>
 		/// <value>
-		/// The <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.Single}" > values or null
+		/// The <see cref="CustomMeta" /> <see cref="I:System.Collections.Generic.IEnumerable{System.Single}" /> values or null
 		/// </value>
 		[DataMember(Name = "floatValues", EmitDefaultValue = false, Order = 5)]
 		public IEnumerable<float> FloatValues { get; set; }

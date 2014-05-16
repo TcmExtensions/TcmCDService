@@ -96,10 +96,10 @@ namespace TcmCDService.Contracts
 		public int? DepthFilteringLevel { get; set; }
 
 		/// <summary>
-		/// Gets or sets the <see cref="TaxonomyFilterDirection" /> for this <see cref="TaxonomyFilter" />
+		/// Gets or sets the <see cref="T:TcmCDService.Contracts.TaxonomyFilterDirection" /> for this <see cref="TaxonomyFilter" />
 		/// </summary>
 		/// <value>
-		/// The <see cref="TaxonomyFilterDirection" /> for this <see cref="TaxonomyFilter" />
+		/// The <see cref="T:TcmCDService.Contracts.TaxonomyFilterDirection" /> for this <see cref="TaxonomyFilter" />
 		/// </value>
 		/// <remarks>Value of null means no filtering is applied</remarks>
 		[DataMember(Name = "depthFiltering", EmitDefaultValue = false, Order = 4)]

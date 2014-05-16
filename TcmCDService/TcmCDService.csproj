@@ -45,6 +45,7 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="Tridion.ContentDelivery">
       <HintPath>..\dependencies\Tridion.ContentDelivery.dll</HintPath>

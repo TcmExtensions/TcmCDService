@@ -28,6 +28,9 @@ using TcmCDService.ContentDelivery;
 using TcmCDService.CacheTypes;
 using TcmCDService.Configuration;
 using Tridion.ContentDelivery.Web.Jvm;
+using System.ServiceModel.Channels;
+using System.ServiceModel.Web;
+using System.Text;
 
 namespace TcmCDService
 {
@@ -35,7 +38,7 @@ namespace TcmCDService
 	/// <see cref="Service" /> implements the <see cref="I:TcmCDService.Contracts.IService" /> service contract
 	/// </summary>
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public class Service : TcmCDService.Contracts.IService, IDisposable
+	public class Service : TcmCDService.Contracts.IService, TcmCDService.Contracts.IHealthCheck, IDisposable
 	{
 		private CacheType mCacheType;
 
@@ -704,6 +707,54 @@ namespace TcmCDService
 				},
 				CacheRegion.Taxonomy | CacheRegion.TanonomyKeywordCount | CacheRegion.TanonomyKeywordRelations,
 				taxonomyUri);
+		}
+
+		/// <summary>
+		/// Executes a healthcheck using the configured healthcheck parameters
+		/// </summary>
+		/// <returns>text/plain content, indicating "Success" or "Failure"</returns>
+		public Message HealthCheck()
+		{
+			return WebOperationContext.Current.CreateTextResponse(
+				(textWriter) =>
+				{
+					textWriter.WriteLine("TcmCDService");
+					textWriter.WriteLine();
+
+					OperationContext.Current.Host.PrintEndpoints(textWriter);
+
+					textWriter.WriteLine();
+					textWriter.WriteLine(new String('-', 80));
+					textWriter.WriteLine();
+
+					foreach (HealthCheckElement healthCheck in Config.Instance.HealthChecks)
+					{
+						switch (healthCheck.HealthCheckType)
+						{
+							case HealthCheckType.ComponentLink:
+								textWriter.Write("{0}: ", healthCheck.ToString());
+								
+								if (!String.IsNullOrEmpty(ContentDelivery.Web.Linking.ComponentLinkCache.ResolveComponentLink(healthCheck.Uri)))
+									textWriter.Write("Success\n");
+								else
+									textWriter.Write("Failure\n");
+								break;
+							case HealthCheckType.ComponentPresentation:
+								textWriter.Write("{0}: ", healthCheck.ToString());
+								
+								using (ComponentPresentation componentPresentation = ContentDelivery.DynamicContent.ComponentPresentationCache.GetComponentPresentationWithHighestPriority(healthCheck.Uri))
+								{
+									if (componentPresentation != null && !String.IsNullOrEmpty(componentPresentation.Content))
+										textWriter.Write("Success\n");
+									else
+										textWriter.Write("Failure\n");
+								}
+								break;
+						}
+					}
+				}, 
+				"text/plain",
+				Encoding.UTF8);
 		}
 
 		/// <summary>

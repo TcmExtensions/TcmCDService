@@ -137,6 +137,22 @@ namespace TcmCDService.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Gets the configured collection of healthchecks to execute as part of the healthcheck service
+		/// </summary>
+		/// <value>
+		/// Healthchecks to execute as part of the healthcheck service
+		/// </value>
+		[ConfigurationProperty("healthChecks")]
+		[ConfigurationCollection(typeof(HealthCheckElement), AddItemName = "healthCheck")]
+		public ConfigurationCollection<HealthCheckElement> HealthChecks
+		{
+			get
+			{
+				return (ConfigurationCollection<HealthCheckElement>)this["healthChecks"];
+			}
+		}
+		
 		[ConfigurationProperty("cacheType", IsRequired = false, DefaultValue = null)]
 		internal CacheTypeElement CacheType
 		{
@@ -147,6 +163,9 @@ namespace TcmCDService.Configuration
 		}
 	}
 
+	/// <summary>
+	/// <see cref="CacheTypeElement" /> defines the configuration for a <see cref="TcmCDService.CacheTypes.CacheType" />
+	/// </summary>
 	public class CacheTypeElement : ConfigurationElement
 	{
 		[ConfigurationProperty("type", IsRequired = true)]
@@ -166,6 +185,84 @@ namespace TcmCDService.Configuration
 			{
 				return (ConfigurationCollection<ConfigurationKeyValueElement>)this[""];
 			}
+		}
+	}
+
+	/// <summary>
+	/// <see cref="HealthCheckElement" /> defines the configuration for healthchecks to execute
+	/// </summary>
+	public class HealthCheckElement : ConfigurationElement
+	{
+		/// <summary>
+		/// Gets the name of the <see cref="HealthCheckElement" /> 
+		/// </summary>
+		/// <value>
+		/// Name of the <see cref="HealthCheckElement" /> 
+		/// </value>
+		[ConfigurationProperty("name", IsRequired = true, IsKey = true)]
+		public String Name
+		{
+			get
+			{
+				return (String)base["name"];
+			}
+		}
+
+		/// <summary>
+		/// Gets the <see cref="T:TcmCDService.Comon.Configuration.HealthCheckType" /> to execute
+		/// </summary>
+		/// <value>
+		/// <see cref="T:TcmCDService.Comon.Configuration.HealthCheckType" /> to execute
+		/// </value>
+		[ConfigurationProperty("type", IsRequired = true)]
+		public HealthCheckType HealthCheckType
+		{
+			get
+			{
+				return (HealthCheckType)base["type"];
+			}
+		}
+
+		/// <summary>
+		/// Gets the Tridion content manager uri to execute the healthcheck against
+		/// </summary>
+		/// <value>
+		/// Tridion content manager uri to execute the healthcheck against
+		/// </value>
+		[ConfigurationProperty("uri", IsRequired = true)]
+		public String Uri
+		{
+			get
+			{
+				return base["uri"] as String;
+			}
+		}
+
+		/// <summary>
+		/// Gets <see cref="T:TcmCDService.Configuration.ConfigurationCollection{TcmCDService.Configuration.ConfigurationKeyValueElement}" /> settings
+		/// </summary>
+		/// <value>
+		/// <see cref="T:TcmCDService.Configuration.ConfigurationCollection{TcmCDService.Configuration.ConfigurationKeyValueElement}" /> settings
+		/// </value>
+		[ConfigurationProperty("", IsDefaultCollection = true)]
+		[ConfigurationCollection(typeof(ConfigurationKeyValueElement), AddItemName = "setting")]
+		public ConfigurationCollection<ConfigurationKeyValueElement> Settings
+		{
+			get
+			{
+				return (ConfigurationCollection<ConfigurationKeyValueElement>)this[""];
+			}
+		}
+
+		/// <summary>
+		/// Returns a string that represents the current object.
+		/// </summary>
+		/// <returns>
+		/// A string that represents the current object.
+		/// </returns>
+		public override String ToString()
+		{
+			return String.Format("{0} (Uri {1})", this.Name, this.Uri);
 		}
 	}
 }

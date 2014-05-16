@@ -41,12 +41,14 @@
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrokerQuery.cs" />
     <Compile Include="ComponentMeta.cs" />
     <Compile Include="ComponentPresentation.cs" />
     <Compile Include="ComponentPresentationMeta.cs" />
+    <Compile Include="IHealthCheck.cs" />
     <Compile Include="CustomMeta.cs" />
     <Compile Include="Keyword.cs" />
     <Compile Include="KeywordQuery.cs" />

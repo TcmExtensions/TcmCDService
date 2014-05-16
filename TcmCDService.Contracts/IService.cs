@@ -19,6 +19,9 @@ using System.ServiceModel;
 
 namespace TcmCDService.Contracts
 {
+	/// <summary>
+	/// <see cref="IService" /> defines the service contract for <see cref="T:TcmCDService.Service" />
+	/// </summary>
 	[ServiceContract(Namespace = "urn:TcmCDService", Name = "TcmCDService")]
 	public interface IService
 	{

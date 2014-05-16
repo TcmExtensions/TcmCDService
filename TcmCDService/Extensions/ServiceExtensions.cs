@@ -15,6 +15,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Dispatcher;
@@ -31,29 +32,43 @@ namespace TcmCDService.Extensions
 		/// <summary>
 		/// Outputs endpoint information for a <see cref="T:System.ServiceModel.ServiceHost" />.
 		/// </summary>
-		/// <param name="serviceHost"><see cref="T:System.ServiceModel.ServiceHost" /></param>
-		internal static void PrintEndpoints(this ServiceHost serviceHost)
+		/// <param name="serviceHost"><see cref="T:System.ServiceModel.ServiceHostBase" /></param>
+		/// <param name="textWriter"><see cref="T:System.IO.TextWriter" /> to write output to.</param>
+		/// <exception cref="System.ArgumentNullException">textWriter</exception>
+		internal static void PrintEndpoints(this ServiceHostBase serviceHost, TextWriter textWriter)
 		{
+			if (textWriter == null)
+				throw new ArgumentNullException("textWriter");
+
 			if (serviceHost != null)
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-
-				stringBuilder.AppendLine("Service listening on...");
+				textWriter.WriteLine("Service listening on...");
 				
 				foreach (ChannelDispatcher channelDispatcher in serviceHost.ChannelDispatchers)
 				{
 					foreach (EndpointDispatcher endpointDispatcher in channelDispatcher.Endpoints)
 					{
-						stringBuilder.AppendFormat("\t{0}\n", endpointDispatcher.EndpointAddress.Uri);
+						textWriter.WriteLine("\t{0}", endpointDispatcher.EndpointAddress.Uri);
 					}
 				}
+			}
+		}
 
-				String output = stringBuilder.ToString();
+		/// <summary>
+		/// Outputs endpoint information for a <see cref="T:System.ServiceModel.ServiceHost" />.
+		/// </summary>
+		/// <param name="serviceHost"><see cref="T:System.ServiceModel.ServiceHostBase" /></param>		
+		/// <exception cref="System.ArgumentNullException">textWriter</exception>
+		internal static void PrintEndpoints(this ServiceHostBase serviceHost)
+		{
+			using (StringWriter stringWriter = new StringWriter())
+			{
+				serviceHost.PrintEndpoints(stringWriter);
 
 				if (Environment.UserInteractive)
-					Console.Write(output);
+					Console.Write(stringWriter.ToString());
 
-				Logger.Info(output);
+				Logger.Info(stringWriter.ToString());
 			}
 		}
 	}

@@ -49,6 +49,7 @@
     <Compile Include="Configuration\ConfigurationCollection.cs" />
     <Compile Include="Configuration\ConfigurationKeyValueElement.cs" />
     <Compile Include="Configuration\ConfigurationTextElement.cs" />
+    <Compile Include="Configuration\HealthCheckType.cs" />
     <Compile Include="Configuration\Installation.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Logging\Logger.cs" />
