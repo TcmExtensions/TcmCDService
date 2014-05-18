@@ -31,6 +31,7 @@ using Tridion.ContentDelivery.Web.Jvm;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Net;
 
 namespace TcmCDService
 {
@@ -715,6 +716,10 @@ namespace TcmCDService
 		/// <returns>text/plain content, indicating "Success" or "Failure"</returns>
 		public Message HealthCheck()
 		{
+			WebOperationContext.Current.OutgoingResponse.Headers[HttpResponseHeader.CacheControl] = "private, max-age=0, no-cache";
+			WebOperationContext.Current.OutgoingResponse.Headers[HttpResponseHeader.Pragma] = "no-cache";
+			WebOperationContext.Current.OutgoingResponse.Headers[HttpResponseHeader.Expires] = "0";
+			
 			return WebOperationContext.Current.CreateTextResponse(
 				(textWriter) =>
 				{
