@@ -39,9 +39,10 @@ namespace TcmCDService
 	/// <see cref="Service" /> implements the <see cref="I:TcmCDService.Contracts.IService" /> service contract
 	/// </summary>
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public class Service : TcmCDService.Contracts.IService, TcmCDService.Contracts.IHealthCheck, IDisposable
+	public class Service : TcmCDService.Contracts.IService, IDisposable
 	{
 		private CacheType mCacheType;
+		private IEnumerable<HealthChecks.HealthCheckType> mHealthCheckTypes;
 
 		#region CacheType events
 		private void CacheEvents_Connected(Object sender, EventArgs e)
@@ -99,10 +100,10 @@ namespace TcmCDService
 
 			mCacheType.Connect();
 
-			mCacheType.BroadcastEvent(CacheRegion.ComponentLinkInfo, "key:test", CacheEventType.Invalidate);
-			mCacheType.BroadcastEvent(CacheRegion.Publication, 233, CacheEventType.Invalidate);
-
 			Cache.Expiration = mCacheType.Expiration;
+
+			// Load any configured health checks
+			mHealthCheckTypes = HealthChecks.HealthCheckType.LoadHealthCheckTypes();
 		}
 
 		/// <summary>
@@ -711,58 +712,6 @@ namespace TcmCDService
 		}
 
 		/// <summary>
-		/// Executes a healthcheck using the configured healthcheck parameters
-		/// </summary>
-		/// <returns>text/plain content, indicating "Success" or "Failure"</returns>
-		public Message HealthCheck()
-		{
-			WebOperationContext.Current.OutgoingResponse.Headers[HttpResponseHeader.CacheControl] = "private, max-age=0, no-cache";
-			WebOperationContext.Current.OutgoingResponse.Headers[HttpResponseHeader.Pragma] = "no-cache";
-			WebOperationContext.Current.OutgoingResponse.Headers[HttpResponseHeader.Expires] = "0";
-			
-			return WebOperationContext.Current.CreateTextResponse(
-				(textWriter) =>
-				{
-					textWriter.WriteLine("TcmCDService");
-					textWriter.WriteLine();
-
-					OperationContext.Current.Host.PrintEndpoints(textWriter);
-
-					textWriter.WriteLine();
-					textWriter.WriteLine(new String('-', 80));
-					textWriter.WriteLine();
-
-					foreach (HealthCheckElement healthCheck in Config.Instance.HealthChecks)
-					{
-						switch (healthCheck.HealthCheckType)
-						{
-							case HealthCheckType.ComponentLink:
-								textWriter.Write("{0}: ", healthCheck.ToString());
-								
-								if (!String.IsNullOrEmpty(ContentDelivery.Web.Linking.ComponentLinkCache.ResolveComponentLink(healthCheck.Uri)))
-									textWriter.Write("Success\n");
-								else
-									textWriter.Write("Failure\n");
-								break;
-							case HealthCheckType.ComponentPresentation:
-								textWriter.Write("{0}: ", healthCheck.ToString());
-								
-								using (ComponentPresentation componentPresentation = ContentDelivery.DynamicContent.ComponentPresentationCache.GetComponentPresentationWithHighestPriority(healthCheck.Uri))
-								{
-									if (componentPresentation != null && !String.IsNullOrEmpty(componentPresentation.Content))
-										textWriter.Write("Success\n");
-									else
-										textWriter.Write("Failure\n");
-								}
-								break;
-						}
-					}
-				}, 
-				"text/plain",
-				Encoding.UTF8);
-		}
-
-		/// <summary>
 		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
 		/// </summary>
 		public void Dispose()
@@ -781,6 +730,9 @@ namespace TcmCDService
 			{
 				if (mCacheType != null)
 					mCacheType.Dispose();
+
+				foreach (HealthChecks.HealthCheckType healthCheckType in mHealthCheckTypes)
+					healthCheckType.Dispose();
 			}
 		}
 	}

@@ -47,6 +47,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.XML" />
     <Reference Include="Tridion.ContentDelivery">
       <HintPath>..\dependencies\Tridion.ContentDelivery.dll</HintPath>
     </Reference>
@@ -72,6 +73,9 @@
     <Compile Include="ContentDelivery\Web.Linking\PageLinkCache.cs" />
     <Compile Include="Extensions\ContractExtensions.cs" />
     <Compile Include="Extensions\ServiceExtensions.cs" />
+    <Compile Include="HealthChecks\BaseHealthCheck.cs" />
+    <Compile Include="HealthChecks\FileHealthCheck.cs" />
+    <Compile Include="HealthChecks\WebHealthCheck.cs" />
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -12,6 +12,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using TcmCDService.Configuration;
 
 namespace TcmCDService.Logging
 {
@@ -130,7 +131,7 @@ namespace TcmCDService.Logging
 					break;
 			}
 
-			Source.TraceEvent(level, 0, "{0,-13:HH:mm:ss.ff}{1,-9}{2}", DateTime.UtcNow, sLevel, message);
+			Source.TraceEvent(level, 0, "{0,-13:HH:mm:ss.ff}{1,-9}{2}", Config.Instance.LocalTime ? DateTime.Now : DateTime.UtcNow, sLevel, message);
 		}
 
 		/// <summary>

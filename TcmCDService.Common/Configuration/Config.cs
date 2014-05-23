@@ -138,18 +138,34 @@ namespace TcmCDService.Configuration
 		}
 
 		/// <summary>
-		/// Gets the configured collection of healthchecks to execute as part of the healthcheck service
+		/// Gets a value indicating whether timestamps in logs and status files are local time or UTC
+		/// Defaults to UTC
 		/// </summary>
 		/// <value>
-		/// Healthchecks to execute as part of the healthcheck service
+		///   <c>true</c> if timestamps are to be in local time; otherwise, <c>false</c>.
 		/// </value>
-		[ConfigurationProperty("healthChecks")]
-		[ConfigurationCollection(typeof(HealthCheckElement), AddItemName = "healthCheck")]
-		public ConfigurationCollection<HealthCheckElement> HealthChecks
+		[ConfigurationProperty("useLocalTime", DefaultValue = false, IsRequired = false)]
+		public Boolean LocalTime
 		{
 			get
 			{
-				return (ConfigurationCollection<HealthCheckElement>)this["healthChecks"];
+				return (Boolean)base["useLocalTime"];
+			}
+		}
+
+		/// <summary>
+		/// Gets the configured collection of healthcheck types configured as part of the healthcheck service
+		/// </summary>
+		/// <value>
+		/// Healthcheck types to configured as part of the healthcheck service
+		/// </value>
+		[ConfigurationProperty("healthCheckTypes")]
+		[ConfigurationCollection(typeof(HealthCheckTypeElement), AddItemName = "healthCheckType")]
+		internal ConfigurationCollection<HealthCheckTypeElement> HealthCheckTypes
+		{
+			get
+			{
+				return (ConfigurationCollection<HealthCheckTypeElement>)this["healthCheckTypes"];
 			}
 		}
 		
@@ -168,7 +184,7 @@ namespace TcmCDService.Configuration
 	/// </summary>
 	public class CacheTypeElement : ConfigurationElement
 	{
-		[ConfigurationProperty("type", IsRequired = true)]
+		[ConfigurationProperty("type", IsRequired = true, IsKey = true)]
 		internal String CacheType
 		{
 			get
@@ -185,6 +201,81 @@ namespace TcmCDService.Configuration
 			{
 				return (ConfigurationCollection<ConfigurationKeyValueElement>)this[""];
 			}
+		}
+
+		/// <summary>
+		/// Returns a string that represents the current object.
+		/// </summary>
+		/// <returns>
+		/// A string that represents the current object.
+		/// </returns>
+		public override String ToString()
+		{
+			return this.CacheType;
+		}
+	}
+
+	/// <summary>
+	/// <see cref="HealthCheckTypeElement" /> allows configuration of a single <see cref="HealthCheckTypeElement" /> derived class
+	/// </summary>
+	public class HealthCheckTypeElement : ConfigurationElement
+	{
+		/// <summary>
+		/// Gets the type of the <see cref="HealthCheckTypeElement" /> 
+		/// </summary>
+		/// <value>
+		/// Type of the <see cref="HealthCheckTypeElement" /> 
+		/// </value>
+		[ConfigurationProperty("type", IsRequired = true, IsKey = true)]
+		internal String HealthCheckType
+		{
+			get
+			{
+				return (String)base["type"];
+			}
+		}
+
+		/// <summary>
+		/// Gets <see cref="T:TcmCDService.Configuration.ConfigurationCollection{TcmCDService.Configuration.ConfigurationKeyValueElement}" /> settings
+		/// </summary>
+		/// <value>
+		/// <see cref="T:TcmCDService.Configuration.ConfigurationCollection{TcmCDService.Configuration.ConfigurationKeyValueElement}" /> settings
+		/// </value>
+		[ConfigurationProperty("settings", IsDefaultCollection = true)]
+		[ConfigurationCollection(typeof(ConfigurationKeyValueElement), AddItemName = "setting")]
+		internal ConfigurationCollection<ConfigurationKeyValueElement> Settings
+		{
+			get
+			{
+				return (ConfigurationCollection<ConfigurationKeyValueElement>)this["settings"];
+			}
+		}
+
+		/// <summary>
+		/// Gets the configured collection of healthcheck types configured as part of the healthcheck service
+		/// </summary>
+		/// <value>
+		/// Healthcheck types to configured as part of the healthcheck service
+		/// </value>
+		[ConfigurationProperty("healthChecks")]
+		[ConfigurationCollection(typeof(HealthCheckElement), AddItemName = "healthCheck")]
+		internal ConfigurationCollection<HealthCheckElement> HealthChecks
+		{
+			get
+			{
+				return (ConfigurationCollection<HealthCheckElement>)this["healthChecks"];
+			}
+		}
+
+		/// <summary>
+		/// Returns a string that represents the current object.
+		/// </summary>
+		/// <returns>
+		/// A string that represents the current object.
+		/// </returns>
+		public override String ToString()
+		{
+			return this.HealthCheckType;
 		}
 	}
 
@@ -235,22 +326,6 @@ namespace TcmCDService.Configuration
 			get
 			{
 				return base["uri"] as String;
-			}
-		}
-
-		/// <summary>
-		/// Gets <see cref="T:TcmCDService.Configuration.ConfigurationCollection{TcmCDService.Configuration.ConfigurationKeyValueElement}" /> settings
-		/// </summary>
-		/// <value>
-		/// <see cref="T:TcmCDService.Configuration.ConfigurationCollection{TcmCDService.Configuration.ConfigurationKeyValueElement}" /> settings
-		/// </value>
-		[ConfigurationProperty("", IsDefaultCollection = true)]
-		[ConfigurationCollection(typeof(ConfigurationKeyValueElement), AddItemName = "setting")]
-		public ConfigurationCollection<ConfigurationKeyValueElement> Settings
-		{
-			get
-			{
-				return (ConfigurationCollection<ConfigurationKeyValueElement>)this[""];
 			}
 		}
 

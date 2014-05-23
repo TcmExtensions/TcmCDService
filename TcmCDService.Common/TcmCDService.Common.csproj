@@ -52,6 +52,7 @@
     <Compile Include="Configuration\HealthCheckType.cs" />
     <Compile Include="Configuration\Installation.cs" />
     <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="HealthChecks\HealthCheckType.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\RolloverTraceListener.cs" />
     <Compile Include="CacheTypes\NullCache.cs" />

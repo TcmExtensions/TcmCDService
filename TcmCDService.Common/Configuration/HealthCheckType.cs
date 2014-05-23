@@ -1,4 +1,19 @@
-﻿using System;
+﻿#region Header
+////////////////////////////////////////////////////////////////////////////////////
+//
+//	File Description: Healthcheck Type
+// ---------------------------------------------------------------------------------
+//	Date Created	: May 23, 2014
+//	Author			: Rob van Oostenrijk
+// ---------------------------------------------------------------------------------
+// 	Change History
+//	Date Modified       : 
+//	Changed By          : 
+//	Change Description  : 
+//
+////////////////////////////////////////////////////////////////////////////////////
+#endregion
+using System;
 using System.Collections.Generic;
 using System.Text;
 

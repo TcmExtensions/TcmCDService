@@ -16,6 +16,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Web.Configuration;
+using TcmCDService.Configuration;
 
 namespace TcmCDService.Logging
 {
@@ -161,7 +162,7 @@ namespace TcmCDService.Logging
 		private String GenerateFilename(String fileName)
 		{
 			// Initialize the new log file for today
-			mCurrentDate = System.DateTime.UtcNow.Date;
+			mCurrentDate = Config.Instance.LocalTime ? DateTime.Now.Date : DateTime.UtcNow.Date;
 
 			String directory = Path.GetDirectoryName(fileName);
 			String filePrefix = Path.GetFileNameWithoutExtension(fileName);
@@ -181,7 +182,7 @@ namespace TcmCDService.Logging
 					DateTime stamp;
 
 					if (DateTime.TryParseExact(dateStamp, String.Format("'{0}_'yyyyMMdd", filePrefix), CultureInfo.InvariantCulture, DateTimeStyles.None, out stamp))
-						if (DateTime.UtcNow.Subtract(stamp).Days > mPruneAge)
+						if ((Config.Instance.LocalTime ? DateTime.Now : DateTime.UtcNow).Subtract(stamp).Days > mPruneAge)
 							File.Delete(path);
 				}
 			}
@@ -222,7 +223,7 @@ namespace TcmCDService.Logging
 
 			// If the date has rolled over to the next day, release the write so a new 
 			// writer will be initialized
-			if (mCurrentDate.CompareTo(System.DateTime.UtcNow.Date) != 0)
+			if (mCurrentDate.CompareTo(Config.Instance.LocalTime ? DateTime.Now.Date : DateTime.UtcNow.Date) != 0)
 				Close();
 
 			// Close the stream if the file is no longer accessible
