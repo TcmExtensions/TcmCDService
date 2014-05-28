@@ -87,10 +87,17 @@ namespace TcmCDService
 			String tridionConfiguration = Config.Instance.TridionConfiguration;
 
 			if (!String.IsNullOrEmpty(tridionHome))
+			{
+				Logger.Info("Configuring TRIDION_HOME to \"{0}\".", tridionHome);
 				Environment.SetEnvironmentVariable("TRIDION_HOME", tridionHome);
 
+			}
+
 			if (!String.IsNullOrEmpty(tridionConfiguration))
+			{
+				Logger.Info("Configuring tridion configuration folder to \"{0}\".", tridionConfiguration);
 				ConfigurationHook.configFolder = tridionConfiguration;
+			}
 
 			mCacheType = CacheType.GetCacheType();
 

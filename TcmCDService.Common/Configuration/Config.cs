@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using TcmCDService.Logging;
 
 namespace TcmCDService.Configuration
 {
@@ -35,16 +36,25 @@ namespace TcmCDService.Configuration
 		private static Boolean IsValidTridionHome(String tridionPath)
 		{
 			if (String.IsNullOrEmpty(tridionPath) || !Directory.Exists(tridionPath))
+			{
+				Logger.Debug("Tridion Home \"{0}\" is not valid. Directory does not exist.", tridionPath);
 				return false;
+			}
 
 			bool hasCore = File.Exists(Path.Combine(tridionPath, @"lib\cd_core.jar"));
 			bool hasModel = File.Exists(Path.Combine(tridionPath, @"lib\cd_model.jar"));
 
 			if (!hasCore || !hasModel)
+			{
+				Logger.Debug("Tridion Home \"{0}\" is not valid. Either \\lib\\cd_core.jar or \\lib\\cb_model.jar was not found.", tridionPath);
 				return false;
+			}
 
 			bool hasBroker = File.Exists(Path.Combine(tridionPath, @"config\cd_broker_conf.xml"));
 			bool hasStorage = File.Exists(Path.Combine(tridionPath, @"config\cd_storage_conf.xml"));
+			
+			if (!hasBroker && !hasStorage)
+				Logger.Debug("Tridion Home \"{0}\" is not valid. Either \\config\\cd_broker_conf.xml or \\lib\\cd_storage_conf.xml was not found.", tridionPath);
 
 			return (hasBroker || hasStorage);
 		}
@@ -57,10 +67,16 @@ namespace TcmCDService.Configuration
 		private static Boolean IsValidTridionConfig(String configurationFolder)
 		{
 			if (String.IsNullOrEmpty(configurationFolder) || !Directory.Exists(configurationFolder))
+			{
+				Logger.Debug("Tridion configuration folder \"{0}\" is not valid. Directory does not exist.", configurationFolder);
 				return false;
+			}
 
 			bool hasBroker = File.Exists(Path.Combine(configurationFolder, "cd_broker_conf.xml"));
 			bool hasStorage = File.Exists(Path.Combine(configurationFolder, "cd_storage_conf.xml"));
+
+			if (!hasBroker && !hasStorage)
+				Logger.Debug("Tridion configuration folder \"{0}\" is not valid. Either \\config\\cd_broker_conf.xml or \\lib\\cd_storage_conf.xml was not found.", configurationFolder);
 
 			return (hasBroker || hasStorage);
 		}

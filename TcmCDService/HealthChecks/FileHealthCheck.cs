@@ -47,6 +47,8 @@ namespace TcmCDService.HealthChecks
 						using (StreamWriter streamWriter = new StreamWriter(fileStream))
 						{
 							base.ExecuteHealthChecks(streamWriter);
+							streamWriter.Flush();
+							fileStream.Flush(true);
 						}
 					}
 				}
