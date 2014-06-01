@@ -111,7 +111,7 @@ namespace TcmCDService.Configuration
 			{
 				String tridionHome = (String)base["tridionHome"];
 
-				if (IsValidTridionHome(tridionHome))
+				if (!String.IsNullOrEmpty(tridionHome) && IsValidTridionHome(tridionHome))
 					return Path.GetFullPath(tridionHome);
 
 				return String.Empty;
@@ -131,7 +131,7 @@ namespace TcmCDService.Configuration
 			{
 				String tridionConfiguration = (String)base["tridionConfiguration"];
 
-				if (IsValidTridionConfig(tridionConfiguration))
+				if (!String.IsNullOrEmpty(tridionConfiguration) && IsValidTridionConfig(tridionConfiguration))
 					return Path.GetFullPath(tridionConfiguration);
 
 				return String.Empty;

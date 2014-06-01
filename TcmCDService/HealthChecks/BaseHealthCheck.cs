@@ -47,9 +47,9 @@ namespace TcmCDService.HealthChecks
 					case Configuration.HealthCheckType.ComponentLink:
 						
 						if (!String.IsNullOrEmpty(ContentDelivery.Web.Linking.ComponentLinkCache.ResolveComponentLink(healthCheck.Uri)))
-							textWriter.Write("Success\n");
+							textWriter.WriteLine("Success");
 						else
-							textWriter.Write("Failure\n");
+							textWriter.WriteLine("Failure");
 						break;
 					case Configuration.HealthCheckType.ComponentPresentation:
 						
@@ -57,13 +57,13 @@ namespace TcmCDService.HealthChecks
 						using (ComponentPresentation componentPresentation = ContentDelivery.DynamicContent.ComponentPresentationCache.GetComponentPresentationWithHighestPriority(healthCheck.Uri))
 						{
 							if (componentPresentation != null && !String.IsNullOrEmpty(componentPresentation.Content))
-								textWriter.Write("Success\n");
+								textWriter.WriteLine("Success");
 							else
-								textWriter.Write("Failure\n");
+								textWriter.WriteLine("Failure");
 						}
 						break;
 					default:
-						textWriter.Write("Unknown healthcheck type\n");
+						textWriter.WriteLine("Unknown healthcheck type");
 						break;
 				}
 			}

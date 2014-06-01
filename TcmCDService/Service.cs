@@ -89,8 +89,7 @@ namespace TcmCDService
 			if (!String.IsNullOrEmpty(tridionHome))
 			{
 				Logger.Info("Configuring TRIDION_HOME to \"{0}\".", tridionHome);
-				Environment.SetEnvironmentVariable("TRIDION_HOME", tridionHome);
-
+				Environment.SetEnvironmentVariable("TRIDION_HOME", tridionHome, EnvironmentVariableTarget.Process);
 			}
 
 			if (!String.IsNullOrEmpty(tridionConfiguration))
